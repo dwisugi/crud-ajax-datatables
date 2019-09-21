@@ -35,8 +35,8 @@ class Person extends CI_Controller {
 			$row[] = $person->ttl;
 
 			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$person->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$person->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="ubah_santri('."'".$person->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Ubah</a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="hapus_santri('."'".$person->id."'".')"><i class="glyphicon glyphicon-trash"></i> Hapus</a>';
 		
 			$data[] = $row; //memasukkan data array ke variabel data
 		}
@@ -54,7 +54,7 @@ class Person extends CI_Controller {
 	public function ajax_edit($id)
 	{
 		$data = $this->person->get_by_id($id);
-		$data->dob = ($data->dob == '0000-00-00') ? '' : $data->dob; // if 0000-00-00 set tu empty for datepicker compatibility
+		$data->ttl = ($data->ttl == '0000-00-00') ? '' : $data->ttl; // if 0000-00-00 set tu empty for datepicker compatibility
 		echo json_encode($data);
 	}
 
@@ -63,11 +63,11 @@ class Person extends CI_Controller {
 		$this->_validate();
 		
 		$data = array( //mengambil data dari post
-				'firstName' => $this->input->post('firstName'), 
-				'lastName' => $this->input->post('lastName'),
-				'gender' => $this->input->post('gender'),
-				'address' => $this->input->post('address'),
-				'dob' => $this->input->post('dob'),
+				'namaDep' => $this->input->post('namaDep'), 
+				'namaBel' => $this->input->post('namaBel'),
+				'jk' => $this->input->post('jk'),
+				'alamat' => $this->input->post('alamat'),
+				'ttl' => $this->input->post('ttl'),
 			);
 
 		$insert = $this->person->save($data);
@@ -79,11 +79,11 @@ class Person extends CI_Controller {
 	{
 		$this->_validate();
 		$data = array(
-				'firstName' => $this->input->post('firstName'),
-				'lastName' => $this->input->post('lastName'),
-				'gender' => $this->input->post('gender'),
-				'address' => $this->input->post('address'),
-				'dob' => $this->input->post('dob'),
+				'namaDep' => $this->input->post('namaDep'),
+				'namaBel' => $this->input->post('namaBel'),
+				'jk' => $this->input->post('jk'),
+				'alamat' => $this->input->post('alamat'),
+				'ttl' => $this->input->post('ttl'),
 			);
 		$this->person->update(array('id' => $this->input->post('id')), $data);
 		echo json_encode(array("status" => TRUE));
@@ -111,38 +111,38 @@ class Person extends CI_Controller {
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
 
-		if($this->input->post('firstName') == '')
+		if($this->input->post('namaDep') == '')
 		{
-			$data['inputerror'][] = 'firstName';
-			$data['error_string'][] = 'First name is required';
+			$data['inputerror'][] = 'namaDep';
+			$data['error_string'][] = 'Nama Depan Perlu Diisi';
 			$data['status'] = FALSE;
 		}
 
-		if($this->input->post('lastName') == '')
+		if($this->input->post('namaBel') == '')
 		{
-			$data['inputerror'][] = 'lastName';
-			$data['error_string'][] = 'Last name is required';
+			$data['inputerror'][] = 'namaBel';
+			$data['error_string'][] = 'Nama Belakang Perlu Diisi';
 			$data['status'] = FALSE;
 		}
 
-		if($this->input->post('dob') == '')
+		if($this->input->post('ttl') == '')
 		{
-			$data['inputerror'][] = 'dob';
-			$data['error_string'][] = 'Date of Birth is required';
+			$data['inputerror'][] = 'ttl';
+			$data['error_string'][] = 'Tanggal Lahir Perlu Diisi';
 			$data['status'] = FALSE;
 		}
 
-		if($this->input->post('gender') == '')
+		if($this->input->post('jk') == '')
 		{
-			$data['inputerror'][] = 'gender';
-			$data['error_string'][] = 'Please select gender';
+			$data['inputerror'][] = 'jk';
+			$data['error_string'][] = 'Tolong Pilih Salah Satu';
 			$data['status'] = FALSE;
 		}
 
-		if($this->input->post('address') == '')
+		if($this->input->post('alamat') == '')
 		{
-			$data['inputerror'][] = 'address';
-			$data['error_string'][] = 'Addess is required';
+			$data['inputerror'][] = 'alamat';
+			$data['error_string'][] = 'Alamat Perlu Diisi';
 			$data['status'] = FALSE;
 		}
 

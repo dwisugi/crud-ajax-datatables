@@ -77,11 +77,11 @@ class Person_model extends CI_Model {
 
 	public function get_by_id($id)
 	{
-		$this->db->from($this->table);
-		$this->db->where('id',$id);
-		$query = $this->db->get();
+		$this->db->from($this->table); //ambil dari database tabel ini
+		$this->db->where('id',$id); // yang id nya harus sama
+		$query = $this->db->get(); //eksekusi proses
 
-		return $query->row();
+		return $query->row(); //mengembalikan data (bila ada banyak ambil yang pertama)
 	}
 
 	public function save($data)

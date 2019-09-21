@@ -17,13 +17,13 @@
     </head>  
 <body>
     <div class="container">
-        <h1 style="font-size:20pt">Pondok Pesantren IT</h1>
+        <h1 style="font-size:40pt">Pondok Pesantren IT</h1>
 
         <h3>Data Santri</h3>
         <br />
-        <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Add Person</button>
+        <button class="btn btn-success" onclick="add_santri()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>
         <!-- <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button> -->
-        <button class="btn btn-danger" onclick="bulk_delete()"><i class="glyphicon glyphicon-trash"></i> Bulk Delete</button>
+        <button class="btn btn-danger" onclick="bulk_hapus()"><i class="glyphicon glyphicon-trash"></i> Bulk Hapus</button>
         <br />
         <br />
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -132,20 +132,20 @@ $(document).ready(function() { //jika semua file sudah siap baru dijalankan
 
 
 
-function add_person() //fungsi add person saat di klik
+function add_santri() //fungsi add person saat di klik
 {
-    save_method = 'add';
+    save_method = 'tambah';
     $('#form')[0].reset(); // reset form on modals
     // $('.form-group').removeClass('has-error'); // clear error class
     // $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Add Person'); // Set Title to Bootstrap modal title
+    $('.modal-title').text('Tambah Data Santri'); // Set Title to Bootstrap modal title
 
 }
 
-function edit_person(id)
+function ubah_santri(id)
 {
-    save_method = 'update';
+    save_method = 'ubah';
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
@@ -160,19 +160,19 @@ function edit_person(id)
         {
 
             $('[name="id"]').val(data.id);
-            $('[name="firstName"]').val(data.firstName);
-            $('[name="lastName"]').val(data.lastName);
-            $('[name="gender"]').val(data.gender);
-            $('[name="address"]').val(data.address);
-            $('[name="dob"]').datepicker('update',data.dob);
+            $('[name="namaDep"]').val(data.namaDep);
+            $('[name="namaBel"]').val(data.namaBel);
+            $('[name="jk"]').val(data.jk);
+            $('[name="alamat"]').val(data.alamat);
+            $('[name="ttl"]').datepicker('update',data.ttl);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Person'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Ubah Data Santri'); // Set title to Bootstrap modal title
 
 
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-            alert('Error get data from ajax');
+            alert('Error Ambil Data');
         }
     });
 }
@@ -188,7 +188,7 @@ function save()
     $('#btnSave').attr('disabled',true); //set button disable 
     var url;
 
-    if(save_method == 'add') {
+    if(save_method == 'tambah') {
         url = "<?php echo site_url('person/ajax_add')?>";
     } else {
         url = "<?php echo site_url('person/ajax_update')?>";
@@ -234,9 +234,9 @@ function save()
     });
 }
 
-function delete_person(id)
+function hapus_santri(id)
 {
-    if(confirm('Are you sure delete this data?'))
+    if(confirm('Apakah Kamu Yakin Ingin Menghapus Data Ini?'))
     {
         // ajax delete data to database
         $.ajax({
@@ -258,7 +258,7 @@ function delete_person(id)
     }
 }
 
-function bulk_delete()
+function bulk_hapus()
 {
     var list_id = [];
     $(".data-check:checked").each(function() {
@@ -266,7 +266,7 @@ function bulk_delete()
     });
     if(list_id.length > 0)
     {
-        if(confirm('Are you sure delete this '+list_id.length+' data?'))
+        if(confirm('Apakah kamu yakin ingin menghapus '+list_id.length+' data?'))
         {
             $.ajax({
                 type: "POST",
@@ -313,41 +313,41 @@ function bulk_delete()
                     <input type="hidden" value="" name="id"/> 
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="control-label col-md-3">First Name</label>
+                            <label class="control-label col-md-3">Nama Depan</label>
                             <div class="col-md-9">
-                                <input name="firstName" placeholder="First Name" class="form-control" type="text">
+                                <input name="namaDep" placeholder="Nama Depan" class="form-control" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Last Name</label>
+                            <label class="control-label col-md-3">Nama Belakang</label>
                             <div class="col-md-9">
-                                <input name="lastName" placeholder="Last Name" class="form-control" type="text">
+                                <input name="namaBel" placeholder="Nama Belakang" class="form-control" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Gender</label>
+                            <label class="control-label col-md-3">Jenis Kelamin</label>
                             <div class="col-md-9">
-                                <select name="gender" class="form-control">
-                                    <option value="">--Select Gender--</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                <select name="jk" class="form-control">
+                                    <option value="">--Pilih--</option>
+                                    <option value="laki laki">Laki-Laki</option>
+                                    <option value="perempuan">Perempuan</option>
                                 </select>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Address</label>
+                            <label class="control-label col-md-3">Alamat</label>
                             <div class="col-md-9">
-                                <textarea name="address" placeholder="Address" class="form-control"></textarea>
+                                <textarea name="alamat" placeholder="Alamat" class="form-control"></textarea>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Date of Birth</label>
+                            <label class="control-label col-md-3">Tanggal Lahir</label>
                             <div class="col-md-9">
-                                <input name="dob" placeholder="yyyy-mm-dd" class="form-control datepicker" type="text">
+                                <input name="ttl" placeholder="yyyy-mm-dd" class="form-control datepicker" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
