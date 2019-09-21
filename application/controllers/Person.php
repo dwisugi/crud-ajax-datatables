@@ -53,8 +53,8 @@ class Person extends CI_Controller {
 
 	public function ajax_edit($id)
 	{
-		$data = $this->person->get_by_id($id);
-		$data->ttl = ($data->ttl == '0000-00-00') ? '' : $data->ttl; // if 0000-00-00 set tu empty for datepicker compatibility
+		$data = $this->person->get_by_id($id); //mengambil data sesuai id
+		// $data->ttl = ($data->ttl == '0000-00-00') ? '' : $data->ttl; // if 0000-00-00 set tu empty for datepicker compatibility
 		echo json_encode($data);
 	}
 

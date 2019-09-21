@@ -8,22 +8,16 @@
     <link href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/datatables/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')?>" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     </head>  
 <body>
     <div class="container">
         <h1 style="font-size:40pt">Pondok Pesantren IT</h1>
-
         <h3>Data Santri</h3>
         <br />
-        <button class="btn btn-success" onclick="add_santri()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>
-        <!-- <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button> -->
-        <button class="btn btn-danger" onclick="bulk_hapus()"><i class="glyphicon glyphicon-trash"></i> Bulk Hapus</button>
+        <div>
+            <button class="btn btn-success" onclick="add_santri()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>
+            <button class="btn btn-danger" onclick="bulk_hapus()"><i class="glyphicon glyphicon-trash"></i> Bulk Hapus</button>
+        </div>
         <br />
         <br />
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -40,18 +34,6 @@
             </thead>
             <tbody>
             </tbody>
-
-            <!-- <tfoot>
-            <tr>
-                <th></th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Gender</th>
-                <th>Address</th>
-                <th>Date of Birth</th>
-                <th>Action</th>
-            </tr>
-            </tfoot> -->
         </table>
     </div>
 
@@ -64,14 +46,14 @@
 
 <script type="text/javascript">
 
-var save_method; //untuk method save
-var table; // untuk tabel
-var base_url = '<?php echo base_url();?>'; //untuk base url
+    var save_method; //untuk method save
+    var table; // untuk tabel
+    var base_url = '<?php echo base_url();?>'; //untuk base url
 
 $(document).ready(function() { //jika semua file sudah siap baru dijalankan
 
     //datatables
-    table = $('#table').DataTable({ 
+    table = $('#table').DataTable({ //datatables ditampilkan di id table
 
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
@@ -79,18 +61,14 @@ $(document).ready(function() { //jika semua file sudah siap baru dijalankan
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('person/ajax_list')?>",
-            "type": "POST"
+            "url": "<?php echo site_url('person/ajax_list')?>", //url model ambil data
+            "type": "POST" //tipe post
         },
 
         //Set column definition initialisation properties.
         "columnDefs": [
             { 
-                "targets": [ 0 ], //first column
-                "orderable": false, //set not orderable
-            },
-            { 
-                "targets": [ -1 ], //last column
+                "targets": [ 0 ], //first column | kolom 0 tidak dapat di search dan sorting
                 "orderable": false, //set not orderable
             },
 
@@ -108,19 +86,19 @@ $(document).ready(function() { //jika semua file sudah siap baru dijalankan
         todayHighlight: true,  
     });
 
-    // set input/textarea/select event when change value, remove class error and remove text help block 
-    // $("input").change(function(){
-    //     $(this).parent().parent().removeClass('has-error');
-    //     $(this).next().empty();
-    // });
-    // $("textarea").change(function(){
-    //     $(this).parent().parent().removeClass('has-error');
-    //     $(this).next().empty();
-    // });
-    // $("select").change(function(){
-    //     $(this).parent().parent().removeClass('has-error');
-    //     $(this).next().empty();
-    // });
+    //mengatur input/textarea/select saat value berganti, menghapus class error dan menghapus text help block
+    $("input").change(function(){
+        $(this).parent().parent().removeClass('has-error');
+        $(this).next().empty();
+    });
+    $("textarea").change(function(){
+        $(this).parent().parent().removeClass('has-error');
+        $(this).next().empty();
+    });
+    $("select").change(function(){
+        $(this).parent().parent().removeClass('has-error');
+        $(this).next().empty();
+    });
 
 
     //check all
@@ -134,10 +112,10 @@ $(document).ready(function() { //jika semua file sudah siap baru dijalankan
 
 function add_santri() //fungsi add person saat di klik
 {
-    save_method = 'tambah';
+    save_method = 'tambah'; // mengisi identifikasi save method 
     $('#form')[0].reset(); // reset form on modals
-    // $('.form-group').removeClass('has-error'); // clear error class
-    // $('.help-block').empty(); // clear error string
+    $('.form-group').removeClass('has-error'); // clear error class
+    $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
     $('.modal-title').text('Tambah Data Santri'); // Set Title to Bootstrap modal title
 
@@ -153,13 +131,13 @@ function ubah_santri(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('person/ajax_edit')?>/" + id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
+        url : "<?php echo site_url('person/ajax_edit')?>/" + id, //url untuk mengambil data
+        type: "GET", // tipe yang digunakan get
+        dataType: "JSON", //data tipe json
+        success: function(data) //mengambalikan data yang sudah diambil 
         {
 
-            $('[name="id"]').val(data.id);
+            $('[name="id"]').val(data.id); //memasukkan data ke form
             $('[name="namaDep"]').val(data.namaDep);
             $('[name="namaBel"]').val(data.namaBel);
             $('[name="jk"]').val(data.jk);
@@ -170,7 +148,7 @@ function ubah_santri(id)
 
 
         },
-        error: function (jqXHR, textStatus, errorThrown)
+        error: function (jqXHR, textStatus, errorThrown) //jika tidak ada pengembalian data
         {
             alert('Error Ambil Data');
         }
@@ -188,14 +166,14 @@ function save()
     $('#btnSave').attr('disabled',true); //set button disable 
     var url;
 
-    if(save_method == 'tambah') {
+    if(save_method == 'tambah') { // pengondisian nama nilai method
         url = "<?php echo site_url('person/ajax_add')?>";
     } else {
         url = "<?php echo site_url('person/ajax_update')?>";
     }
 
     // ajax adding data to database
-    var formData = new FormData($('#form')[0]);
+    var formData = new FormData($('#form')[0]); //mengambil data dari form 
     $.ajax({
         url : url,
         type: "POST",
@@ -209,7 +187,7 @@ function save()
             if(data.status) //if success close modal and reload ajax table
             {
                 $('#modal_form').modal('hide');
-                reload_table();
+                reload_table(); //reload table
             }
             else
             {
@@ -247,7 +225,7 @@ function hapus_santri(id)
             {
                 //if success reload ajax table
                 $('#modal_form').modal('hide');
-                reload_table();
+                reload_table(); //reload table
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -277,7 +255,7 @@ function bulk_hapus()
                 {
                     if(data.status)
                     {
-                        reload_table();
+                        reload_table(); //reload table
                     }
                     else
                     {

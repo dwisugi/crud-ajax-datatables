@@ -11,13 +11,13 @@ class Person_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->database(); 
+		$this->load->database();  //load database
 	}
 
 	private function _get_datatables_query()
 	{
 		
-		$this->db->from($this->table);
+		$this->db->from($this->table); //ambil data dari table ini
 
 		$i = 0; 
 	
