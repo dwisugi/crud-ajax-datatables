@@ -11,30 +11,41 @@
     </head>  
 <body>
     <div class="container">
-        <h1 style="font-size:40pt">Pondok Pesantren IT</h1>
-        <h3>Data Santri</h3>
-        <br />
-        <div>
-            <button class="btn btn-success" onclick="add_santri()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>
-            <button class="btn btn-danger" onclick="bulk_hapus()"><i class="glyphicon glyphicon-trash"></i> Bulk Hapus</button>
+        <div class="row">
+            <div class="col-12">
+                <div class="col-md-10">
+                
+                    <h1 style="font-size:40pt">Pondok Pesantren IT</h1>
+                    <h3>Data Santri</h3>
+                    <!-- <br /> -->
+                  
+                    
+                </div>
+                <div class="col-md-2">
+                        <br /><br />
+                        <button class="btn btn-success btn-sm center-block" onclick="add_santri()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>
+                        <br />
+                        <button class="btn btn-danger btn-sm center-block" onclick="bulk_hapus()"><i class="glyphicon glyphicon-trash"></i> Bulk Hapus</button>
+                </div>
+     
+                <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="check-all"></th>
+                            <th>Nama Depan</th>
+                            <th>Nama Belakang</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Alamat</th>
+                            <th>Tanggal Lahir</th>
+                            <th style="width:150px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <br />
-        <br />
-        <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" id="check-all"></th>
-                    <th>Nama Depan</th>
-                    <th>Nama Belakang</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Alamat</th>
-                    <th>Tanggal Lahir</th>
-                    <th style="width:150px;">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+
     </div>
 
 <script src="<?php echo base_url('assets/jquery/jquery-2.1.4.min.js')?>"></script>
