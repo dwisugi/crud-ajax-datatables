@@ -72,7 +72,7 @@ $(document).ready(function() { //jika semua file sudah siap baru dijalankan
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('person/ajax_list')?>", //url model ambil data
+            "url": "<?php echo site_url('index.php/person/ajax_list')?>", //url model ambil data
             "type": "POST" //tipe post
         },
 
@@ -142,7 +142,7 @@ function ubah_santri(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('person/ajax_edit')?>/" + id, //url untuk mengambil data
+        url : "<?php echo site_url('index.php/person/ajax_edit')?>/" + id, //url untuk mengambil data
         type: "GET", // tipe yang digunakan get
         dataType: "JSON", //data tipe json
         success: function(data) //mengambalikan data yang sudah diambil 
@@ -178,9 +178,9 @@ function save()
     var url;
 
     if(save_method == 'tambah') { // pengondisian nama nilai method
-        url = "<?php echo site_url('person/ajax_add')?>";
+        url = "<?php echo site_url('index.php/person/ajax_add')?>";
     } else {
-        url = "<?php echo site_url('person/ajax_update')?>";
+        url = "<?php echo site_url('index.php/person/ajax_update')?>";
     }
 
     // ajax adding data to database
@@ -229,7 +229,7 @@ function hapus_santri(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('person/ajax_delete')?>/"+id,
+            url : "<?php echo site_url('index.php/person/ajax_delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -260,7 +260,7 @@ function bulk_hapus()
             $.ajax({
                 type: "POST",
                 data: {id:list_id},
-                url: "<?php echo site_url('person/ajax_bulk_delete')?>",
+                url: "<?php echo site_url('index.php/person/ajax_bulk_delete')?>",
                 dataType: "JSON",
                 success: function(data)
                 {
