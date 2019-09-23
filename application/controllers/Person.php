@@ -12,9 +12,13 @@ class Person extends CI_Controller {
 
 	public function index() // fungsi index, file yang pertama kali dijalankan
 	{
-        
-		$this->load->helper('url'); // load helper url
-		$this->load->view('person_view'); // pertama menjalankan file person view
+		$this->load->library('Libsantri');
+		$this->Libsantri->nama_saya();
+                echo "<br/>";
+                $this->Libsantri->nama_kamu("Andi");
+		
+		// $this->load->helper('url'); // load helper url
+		// $this->load->view('person_view'); // pertama menjalankan file person view
 	} 
 
 	public function ajax_list() //fungsi menampilkan list data
