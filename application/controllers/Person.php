@@ -6,20 +6,32 @@ class Person extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct(); //menjalankan construct dari parent CI
+		if($this->session->userdata('status') != "login"){
+			redirect(base_url("login"));
+		}
 		$this->load->model('person_model','person'); //load file model person_model diganti person
-        // $this->faker = Faker\Factory::create('id_ID');
+		$this->load->library('Libsantri');
+		// $this->faker = Faker\Factory::create('id_ID');
     }
 
 	public function index() // fungsi index, file yang pertama kali dijalankan
 	{
-		$this->load->library('Libsantri');
-		$this->Libsantri->nama_saya();
-                echo "<br/>";
-                $this->Libsantri->nama_kamu("Andi");
+	
 		
 		// $this->load->helper('url'); // load helper url
+		$this->load->view('home');
 		// $this->load->view('person_view'); // pertama menjalankan file person view
 	} 
+
+	function logout(){ //fungsi logout
+		$this->session->sess_destroy(); //matikan session
+		redirect(base_url('login')); //redirect ke halaman login
+	}
+	
+	public function santri()
+	{
+		$this->load->view('person_view');
+	}
 
 	public function ajax_list() //fungsi menampilkan list data
 	{
@@ -36,7 +48,9 @@ class Person extends CI_Controller {
 			$row[] = $person->namaBel;
 			$row[] = $person->jk;
 			$row[] = $person->alamat;
-			$row[] = $person->ttl;
+			$tanggal = $person->ttl;
+			$row[] = format_tanggal($tanggal);
+			$row[] = '<img src="'. base_url('gambar/'.$person->image).'" width="64" />';
 
 			//add html for action
 			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="ubah_santri('."'".$person->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Ubah</a>
@@ -72,12 +86,15 @@ class Person extends CI_Controller {
 				'jk' => $this->input->post('jk'),
 				'alamat' => $this->input->post('alamat'),
 				'ttl' => $this->input->post('ttl'),
+				'image' => $this->person->_uploadImage(),
 			);
 
 		$insert = $this->person->save($data);
 
 		echo json_encode(array("status" => TRUE));
 	}
+
+	
 
 	public function ajax_update()
 	{
@@ -88,6 +105,12 @@ class Person extends CI_Controller {
 				'jk' => $this->input->post('jk'),
 				'alamat' => $this->input->post('alamat'),
 				'ttl' => $this->input->post('ttl'),
+
+				// if (!empty($_FILES["image"]["name"])) {
+				// 	'image' = $this->person->_uploadImage();
+				// } else {
+				// 	'image' = $this->input->post("old_image");
+				// }
 			);
 		$this->person->update(array('id' => $this->input->post('id')), $data);
 		echo json_encode(array("status" => TRUE));

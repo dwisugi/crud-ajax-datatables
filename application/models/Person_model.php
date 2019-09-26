@@ -4,9 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Person_model extends CI_Model {
 
 	var $table = 'datasantri';
-	var $column_order = array(null,'namaDep','namaBel','jk','alamat','ttl'); //set column field database for datatable orderable
+	var $column_order = array(null,'namaDep','namaBel','jk','alamat','ttl','image'); //set column field database for datatable orderable
 	var $column_search = array('namaDep','namaBel','alamat'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('id' => 'desc'); // default order 
+	var $order = array('id' => 'desc'); // default order
+	 
 
 	public function __construct()
 	{
@@ -100,6 +101,30 @@ class Person_model extends CI_Model {
 	{
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
+	}
+
+	function cek_login($table,$where)
+	{		
+		return $this->db->get_where($table,$where);
+	}
+
+	public function _uploadImage()
+	{
+		$config['upload_path']          = './gambar/'; //simpan ke folder
+		$config['allowed_types']        = 'gif|jpg|png'; //format yang diijinkan
+		$config['file_name']            = $this->id; // ambil nama file
+		$config['overwrite']			= true; //untuk menindih file yang sudah terupload dengan yang baru 
+		$config['max_size']             = 1024; // 1MB
+		// $config['max_width']            = 1024;
+		// $config['max_height']           = 768;
+
+		$this->load->library('upload', $config); //load library upload serta confignya
+
+		if ($this->upload->do_upload('image')) { // untuk melakukan aksi upload dari nama yang diterima
+			return $this->upload->data("file_name");
+		}
+		
+		return "default.jpg"; //jika gagal tampilkan foto default
 	}
 
 

@@ -10,12 +10,68 @@
     <link href="<?php echo base_url('assets/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')?>" rel="stylesheet">
     </head>  
 <body>
+    	<!-- Navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                 <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button> -->
+                <a class="navbar-brand" href="<?php echo base_url()?>">Home</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Santri</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                    </li>
+                </ul>
+                </div> <!--/.navbar-collapse -->
+             </div> <!--/.container-fluid -->
+        </nav>
+    <!-- Navbar End -->
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="col-md-10">
                 
                     <h1 style="font-size:40pt">Pondok Pesantren IT</h1>
+                    	<?= $this->libsantri->nama_saya();?>
                     <h3>Data Santri</h3>
                     <!-- <br /> -->
                   
@@ -37,6 +93,7 @@
                             <th>Jenis Kelamin</th>
                             <th>Alamat</th>
                             <th>Tanggal Lahir</th>
+                            <th>Photo</th>
                             <th style="width:150px;">Action</th>
                         </tr>
                     </thead>
@@ -72,7 +129,7 @@ $(document).ready(function() { //jika semua file sudah siap baru dijalankan
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('index.php/person/ajax_list')?>", //url model ambil data
+            "url": "<?php echo site_url('person/ajax_list')?>", //url model ambil data
             "type": "POST" //tipe post
         },
 
@@ -142,7 +199,7 @@ function ubah_santri(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('index.php/person/ajax_edit')?>/" + id, //url untuk mengambil data
+        url : "<?php echo site_url('person/ajax_edit')?>/" + id, //url untuk mengambil data
         type: "GET", // tipe yang digunakan get
         dataType: "JSON", //data tipe json
         success: function(data) //mengambalikan data yang sudah diambil 
@@ -178,9 +235,9 @@ function save()
     var url;
 
     if(save_method == 'tambah') { // pengondisian nama nilai method
-        url = "<?php echo site_url('index.php/person/ajax_add')?>";
+        url = "<?php echo site_url('person/ajax_add')?>";
     } else {
-        url = "<?php echo site_url('index.php/person/ajax_update')?>";
+        url = "<?php echo site_url('person/ajax_update')?>";
     }
 
     // ajax adding data to database
@@ -229,7 +286,7 @@ function hapus_santri(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('index.php/person/ajax_delete')?>/"+id,
+            url : "<?php echo site_url('person/ajax_delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -260,7 +317,7 @@ function bulk_hapus()
             $.ajax({
                 type: "POST",
                 data: {id:list_id},
-                url: "<?php echo site_url('index.php/person/ajax_bulk_delete')?>",
+                url: "<?php echo site_url('person/ajax_bulk_delete')?>",
                 dataType: "JSON",
                 success: function(data)
                 {
@@ -338,6 +395,12 @@ function bulk_hapus()
                             <div class="col-md-9">
                                 <input name="ttl" placeholder="yyyy-mm-dd" class="form-control datepicker" type="text">
                                 <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Photo</label>
+                            <div class="col-md-9">
+                            <input type="file" name="image" />
                             </div>
                         </div>
                     </div>
