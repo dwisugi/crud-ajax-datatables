@@ -407,8 +407,8 @@ function bulk_hapus()
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" id="btnSave" onclick="save()" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Cancel</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -110,9 +110,10 @@ class Person_model extends CI_Model {
 
 	public function _uploadImage()
 	{
+		$nmfile 						= "file_".time();  //untuk mengambil nama file
 		$config['upload_path']          = './gambar/'; //simpan ke folder
 		$config['allowed_types']        = 'gif|jpg|png'; //format yang diijinkan
-		$config['file_name']            = $this->id; // ambil nama file
+		$config['file_name']            = $nmfile; // ambil nama file
 		$config['overwrite']			= true; //untuk menindih file yang sudah terupload dengan yang baru 
 		$config['max_size']             = 1024; // 1MB
 		// $config['max_width']            = 1024;
@@ -126,6 +127,8 @@ class Person_model extends CI_Model {
 		
 		return "default.jpg"; //jika gagal tampilkan foto default
 	}
+
+
 
 
 }
