@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Person_model extends CI_Model {
 
 	var $table = 'datasantri';
+	var $tableadmin = 'admin';
 	var $column_order = array(null,'namaDep','namaBel','jk','alamat','ttl','image'); //set column field database for datatable orderable
 	var $column_search = array('namaDep','namaBel','alamat'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('id' => 'desc'); // default order
@@ -76,7 +77,7 @@ class Person_model extends CI_Model {
 		return $this->db->count_all_results(); //mnghitung jumlah data
 	}
 
-	public function get_by_id($id)
+	public function get_by_id($id) 
 	{
 		$this->db->from($this->table); //ambil dari database tabel ini
 		$this->db->where('id',$id); // yang id nya harus sama
@@ -91,6 +92,12 @@ class Person_model extends CI_Model {
 		return $this->db->insert_id(); //mendapatkan id yang terakhir dipakai
 	}
 
+	public function saveadmin($data)
+	{
+		$this->db->insert($this->tableadmin, $data);
+		return $this->db->insert_id(); //mendapatkan id yang terakhir dipakai
+	}
+
 	public function update($where, $data)
 	{
 		$this->db->update($this->table, $data, $where);
@@ -99,6 +106,7 @@ class Person_model extends CI_Model {
 
 	public function delete_by_id($id)
 	{
+		$this->_deleteImage($id);
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
 	}
@@ -110,12 +118,12 @@ class Person_model extends CI_Model {
 
 	public function _uploadImage()
 	{
-		$nmfile 						= "file_".time();  //untuk mengambil nama file
+		$nmfile 						= "pct_".time();  //untuk mengambil nama file
 		$config['upload_path']          = './gambar/'; //simpan ke folder
 		$config['allowed_types']        = 'gif|jpg|png'; //format yang diijinkan
 		$config['file_name']            = $nmfile; // ambil nama file
 		$config['overwrite']			= true; //untuk menindih file yang sudah terupload dengan yang baru 
-		$config['max_size']             = 1024; // 1MB
+		$config['max_size']             = 1024; // maskimal file upload 1MB
 		// $config['max_width']            = 1024;
 		// $config['max_height']           = 768;
 
@@ -127,6 +135,15 @@ class Person_model extends CI_Model {
 		
 		return "default.jpg"; //jika gagal tampilkan foto default
 	}
+
+	public function _deleteImage($id)
+	{
+    $product = $this->get_by_id($id); //ambil data
+    if ($product->image != "default.jpg") {
+	    $filename = explode(".", $product->image)[0]; //mengambil nama file
+		return array_map('unlink', glob(FCPATH."gambar/$filename.*")); //globe untuk mencari sesuai nama file | unlink untuk menghapus data |mengembalikan  nilai
+    }
+}
 
 
 

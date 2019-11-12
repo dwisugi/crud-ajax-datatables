@@ -39,6 +39,49 @@ class Login extends CI_Controller{
 		}
 	}
 
+	public function ajax_addadmin()
+	{
+		$this->_validateadmin();
+		
+		$data = array( //mengambil data dari post
+				'username' => $this->input->post('username'), 
+				'password' => md5($this->input->post('password') ), 
+				
+			);
+
+		$insert = $this->person_model->saveadmin($data);
+
+		echo json_encode(array("status" => TRUE));
+	}
+
+	private function _validateadmin()
+	{
+		$data = array();
+		$data['error_string'] = array();
+		$data['inputerror'] = array();
+		$data['status'] = TRUE;
+
+		if($this->input->post('username') == '')
+		{
+			$data['inputerror'][] = 'username';
+			$data['error_string'][] = 'Username Perlu Diisi';
+			$data['status'] = FALSE;
+		}
+
+		if($this->input->post('password') == '')
+		{
+			$data['inputerror'][] = 'password';
+			$data['error_string'][] = 'Password Perlu Diisi';
+			$data['status'] = FALSE;
+		}
+
+		if($data['status'] === FALSE)
+		{
+			echo json_encode($data);
+			exit();
+		}
+	}
+
 	// function logout(){ //fungsi logout
 	// 	$this->session->sess_destroy(); //matikan session
 	// 	redirect(base_url('login')); //redirect ke halaman login

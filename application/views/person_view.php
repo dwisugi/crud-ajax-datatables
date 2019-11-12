@@ -9,7 +9,7 @@
     <link href="<?php echo base_url('assets/datatables/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')?>" rel="stylesheet">
     </head>  
-<body>
+<body> 
     	<!-- Navbar -->
         <nav class="navbar navbar-default">
             <div class="container-fluid">
@@ -197,7 +197,7 @@ function ubah_santri(id)
     $('.help-block').empty(); // clear error string
 
 
-    //Ajax Load data from ajax
+    //Ajax Load data from ajax 
     $.ajax({
         url : "<?php echo site_url('person/ajax_edit')?>/" + id, //url untuk mengambil data
         type: "GET", // tipe yang digunakan get

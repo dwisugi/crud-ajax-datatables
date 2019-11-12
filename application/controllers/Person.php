@@ -69,7 +69,7 @@ class Person extends CI_Controller {
 		echo json_encode($output);
 	}
 
-	public function ajax_edit($id)
+	public function ajax_edit($id) 
 	{
 		$data = $this->person->get_by_id($id); //mengambil data sesuai id
 		// $data->ttl = ($data->ttl == '0000-00-00') ? '' : $data->ttl; // if 0000-00-00 set tu empty for datepicker compatibility
@@ -77,10 +77,11 @@ class Person extends CI_Controller {
 	}
 
 	public function ajax_add()
-	{
+	{ 
 		$this->_validate();
 		
 		$data = array( //mengambil data dari post
+				// 'id' => uniqid(),
 				'namaDep' => $this->input->post('namaDep'), 
 				'namaBel' => $this->input->post('namaBel'),
 				'jk' => $this->input->post('jk'),
@@ -93,6 +94,8 @@ class Person extends CI_Controller {
 
 		echo json_encode(array("status" => TRUE));
 	}
+
+
 
 	
 
@@ -179,5 +182,7 @@ class Person extends CI_Controller {
 			exit();
 		}
 	}
+
+
 
 }
